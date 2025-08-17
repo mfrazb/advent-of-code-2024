@@ -17,10 +17,10 @@ function processDataToColumns(filePath: string) {
   const rows = readFileSync(filePath, 'utf-8')
     .split('\n')
     .map((line) => {
-      // TODO: update to split into multiple columns instead of just two
+      // OPTIMIZE: update to split into multiple columns instead of just two
       const [first, second] = line.split('   ')
 
-      // TODO: check if each value contains only numberical digits
+      // OPTIMIZE: check if each value contains only numberical digits
       return [Number(first), Number(second)]
     })
 
@@ -32,11 +32,11 @@ function processDataToColumns(filePath: string) {
     }
   })
 
-  // TODO: change to array of arrays
+  // OPTIMIZE: change to array of arrays
   return { col1, col2 }
 }
 
-// TODO: change parameter to array of arrays
+// OPTIMIZE: change parameter to array of arrays
 function processColsToSortedPairs({
   col1,
   col2,
@@ -46,7 +46,7 @@ function processColsToSortedPairs({
 }) {
   const pairs: Array<number[]> = []
 
-  // TODO: check length of each column to make sure it's processed correctly
+  // OPTIMIZE: check length of each column to see if each col has complete data
   // sort the columns
   col1.sort((a, b) => a - b)
   col2.sort((a, b) => a - b)
