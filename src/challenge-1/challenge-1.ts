@@ -5,11 +5,20 @@ import { fileURLToPath } from 'node:url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+// ACTUAL DATA
 const numbersFilePath = join(__dirname, './numbers.txt')
+// TEST DATA
 const numbers2FilePath = join(__dirname, './numbers-2.txt')
+
+// OUTPUT FILES
 const totalDiffFilePath = join(__dirname, './totalDiff.txt')
 const similarityScoreFilePath = join(__dirname, './similarityScore.txt')
 
+/**
+ * process two columns of text data into two arrays of numbers
+ * @param filePath - path for text file containing data
+ * @returns {col1, col2} - two arrays of numbers
+ */
 function processDataToColumns(filePath: string) {
   const col1: number[] = []
   const col2: number[] = []
@@ -36,6 +45,11 @@ function processDataToColumns(filePath: string) {
   return { col1, col2 }
 }
 
+/**
+ * sort columns (two arrays of numbers) from smallest to largest and pair the values at each index
+ * @param {col1, col2} - two arrays of numbers
+ * @returns {pairs} - array of pairs of numbers
+ */
 // OPTIMIZE: change parameter to array of arrays
 function processColsToSortedPairs({
   col1,
@@ -61,6 +75,11 @@ function processColsToSortedPairs({
   return pairs
 }
 
+/**
+ * find the sum of the difference between each pair of numbers
+ * @param {pairs} - array of pairs of numbers
+ * @returns {val} - total difference
+ */
 function calcTotalDiff(pairs: Array<number[]>) {
   const val = pairs.reduce((acc, curr: Array<number>) => {
     if (
@@ -79,11 +98,24 @@ function calcTotalDiff(pairs: Array<number[]>) {
   return val
 }
 
+/**
+ * print value to output file
+ * @param {filePath} - path for output file
+ * @param {val} - value to write to file
+ * @returns {void}
+ */
 function writeValueToFile(filePath: string, val: number) {
   writeFileSync(filePath, val.toString())
   console.log(`The file has been saved with the number ${val}!`)
 }
 
+/**
+ * Find total similarity score for two columns of numbers
+ * Find the similarity score for each value in col1 by checking how many times it appears in col2
+ * ex: 3 appears 3 times for a score of 9 (3+3+3)
+ * @param {col1, col2} - two arrays of numbers
+ * @returns {similarityScore} - total similarity score
+ */
 function findSimilarityScore({
   col1,
   col2,
